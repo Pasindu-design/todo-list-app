@@ -2,7 +2,7 @@
 
 A clean, responsive to-do list built with vanilla HTML, CSS, and JavaScript. Tasks are saved in your browser, so they are still there after a refresh.
 
-**Live demo:** [your-username.github.io/your-repo-name](https://your-username.github.io/your-repo-name)
+**Live demo:** [https://pasindu-design.github.io/todo-list-app/](https://pasindu-design.github.io/todo-list-app/)
 
 ![Screenshot of the app](screenshot.png)
 
@@ -27,8 +27,8 @@ No frameworks or libraries.
 ## Getting started
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/Pasindu-design/todo-list-app.git
+cd todo-list-app
 ```
 
 Open `index.html` in your browser. No build step or install needed.
@@ -60,5 +60,5 @@ Open `index.html` in your browser. No build step or install needed.
 
 ## Author
 
-**Your Name**
-[LinkedIn](https://linkedin.com/in/your-profile) · [GitHub](https://github.com/your-username)
+**Pasindu Madhusanka**
+[LinkedIn](https://www.linkedin.com/in/pasindu-madusanka-a99322322) · [GitHub](https://github.com/Pasindu-design)
