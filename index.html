@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!-- Tells the browser this is a modern HTML5 document -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Makes the page scale correctly on phones -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Task List</title>
+  <link rel="icon" type="image/png" href="logo.png" />
+
+  <!-- Optional Google Font. If it fails to load, the CSS falls back to system fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&display=swap" rel="stylesheet" />
+
+  <!-- Connects our CSS file -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- <main> is the main content area; .card is the white box in the middle -->
+  <main class="card">
+    <img src="logo.png" alt="App Logo" style="width: 50px; height: 50px; margin-bottom: 10px;" />
+    <h1>What's on your list today?</h1>
+
+    <!-- A <form> lets the Enter key submit automatically,
+         so one "submit" event in JS handles both the button and Enter -->
+    <form id="task-form" novalidate>
+      <div class="input-row">
+        <input
+          type="text"
+          id="task-input"
+          placeholder="Add a task..."
+          maxlength="100"
+          autocomplete="off"
+          aria-label="New task"
+        />
+        <button type="submit" class="add-btn">Add</button>
+      </div>
+      <!-- Shown by JS when the input is empty. aria-live makes screen readers announce it -->
+      <p id="error-message" class="error" aria-live="polite"></p>
+    </form>
+
+    <!-- JS creates one <li> per task and puts it inside this <ul> -->
+    <ul id="task-list" class="task-list"></ul>
+
+    <!-- Shown when there are no tasks -->
+    <p id="empty-state" class="empty-state">Nothing here yet. Add your first task above.</p>
+
+    <!-- JS updates this with how many tasks are left -->
+    <p id="task-count" class="task-count"></p>
+  </main>
+
+  <!-- Load JS at the end so the HTML elements above already exist when the script runs -->
+  <script src="script.js"></script>
+</body>
+</html>

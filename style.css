@@ -1,0 +1,204 @@
+/* ---------- 1. Variables ----------
+   Custom properties (--name) store colors and sizes in one place.
+   Change them here and the whole app updates. */
+:root {
+  --bg: #e6ecf3;
+  --card: #ffffff;
+  --ink: #16233b;
+  --muted: #7a869a;
+  --line: #e3e8ef;
+  --accent: #2f5bea;
+  --accent-dark: #2448c4;
+  --danger: #d6455d;
+  --radius: 16px;
+}
+
+/* ---------- 2. Reset ----------
+   border-box makes width include padding, which makes layouts easier to reason about. */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;               /* Flexbox centers the card... */
+  justify-content: center;     /* ...horizontally */
+  align-items: flex-start;
+  padding: 8vh 16px 40px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ---------- 3. Card ---------- */
+.card {
+  width: 100%;
+  max-width: 480px;            /* Never wider than 480px, but shrinks on phones */
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 32px 28px 24px;
+  box-shadow: 0 12px 40px rgba(22, 35, 59, 0.12);
+}
+
+h1 {
+  margin: 0 0 24px;
+  font-family: "Bricolage Grotesque", system-ui, sans-serif;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- 4. Input row ---------- */
+.input-row { display: flex; gap: 10px; }
+
+#task-input {
+  flex: 1;                     /* Input takes all the space the button doesn't */
+  min-width: 0;
+  padding: 12px 14px;
+  font-size: 1rem;
+  color: var(--ink);
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+#task-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(47, 91, 234, 0.15);
+}
+
+.add-btn {
+  padding: 0 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.add-btn:hover { background: var(--accent-dark); }
+.add-btn:active { transform: scale(0.96); }
+.add-btn:focus-visible,
+.delete-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- 5. Validation message ----------
+   JS adds the "invalid" class to the input to trigger the red border and shake. */
+.error {
+  min-height: 1.25rem;         /* Reserve space so the layout doesn't jump */
+  margin: 8px 2px 0;
+  font-size: 0.875rem;
+  color: var(--danger);
+}
+#task-input.invalid { border-color: var(--danger); animation: shake 0.3s; }
+
+@keyframes shake {
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* ---------- 6. Task list ---------- */
+.task-list { list-style: none; margin: 12px 0 0; padding: 0; }
+
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--line);
+  /* "transition" animates these properties whenever they change */
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* A newly added task slides in (JS adds .is-new, then removes it next frame) */
+.task.is-new { opacity: 0; transform: translateY(-8px); }
+
+/* A deleted task fades out before JS removes it from the page */
+.task.is-removing { opacity: 0; transform: translateX(24px); }
+
+.task-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.task-text {
+  overflow-wrap: anywhere;     /* Long words wrap instead of breaking the layout */
+  transition: color 0.25s;
+}
+
+/* Completed state: strikethrough + dimmed */
+.task.completed .task-text {
+  color: var(--muted);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+/* ---------- 7. Custom checkbox ----------
+   appearance: none removes the browser's default look so we can style our own. */
+.task-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border: 2px solid #b9c3d3;
+  border-radius: 7px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+.task-checkbox::after {        /* The checkmark, drawn with two borders */
+  content: "";
+  width: 5px;
+  height: 10px;
+  margin-top: -2px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.2s ease;
+}
+.task-checkbox:checked { background: var(--accent); border-color: var(--accent); }
+.task-checkbox:checked::after { transform: rotate(45deg) scale(1); }
+.task-checkbox:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- 8. Delete button ---------- */
+.delete-btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+}
+.delete-btn:hover { color: var(--danger); background: #fdecef; }
+.delete-btn svg { width: 18px; height: 18px; }
+
+/* ---------- 9. Empty state and counter ---------- */
+.empty-state { margin: 28px 0 8px; text-align: center; color: var(--muted); }
+.task-count  { margin: 16px 4px 0; font-size: 0.875rem; color: var(--muted); }
+
+/* JS toggles this class to hide/show elements */
+.hidden { display: none; }
+
+/* ---------- 10. Responsive + accessibility ---------- */
+@media (max-width: 480px) {
+  .card { padding: 24px 18px 18px; }
+  h1 { font-size: 1.5rem; }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
